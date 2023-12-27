@@ -58,9 +58,9 @@
 
             $('#generatePdf').on('click', function () {
                 var tableHtml = $('#myTable').prop('outerHTML');
-                // alert(html);
+               
              
-        // Use AJAX to send the HTML content to the server for PDF generation
+             // Use AJAX to send the HTML content to the server for PDF generation
                 $.ajax({
                     url: 'generatePdf.php',
                     method: 'POST',
@@ -70,8 +70,8 @@
                     success: function (data) {
                         
                         // Redirect to the generated PDF file
-                        window.location.href = data.pdfUrl;
-                        // alert(data);
+                        // window.location.href = data.pdfUrl;
+                       window.open('seabreak.pdf');
                     },
                     error: function (error) {
                         console.error('Error generating PDF:', error);
