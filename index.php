@@ -14,17 +14,24 @@
 
         <label for="period"class="form-label">Select period:</label>
         <select id="period">
+            <option value="all">All</option>
             <option value="daily">Daily</option>
             <option value="weekly">Weekly</option>
             <option value="monthly">Monthly</option>
         </select>
 
+        <!-- table -->
        <div id="tableContainer">
        
        </div>
-       <button id='generatePdf' type='button' class='btn btn-outline-primary'>Generate PDF</button>
-        <div class="rater">
-
+      
+        <div class="d-flex justify-content-around align-items-center">
+            <button id='generatePdf' type='button' class='btn btn-outline-primary'>Generate PDF</button>
+            <div id="priceCon" class="d-flex justify-content-evenly align-items-center">
+                <laber>Total Sales Price: </label>
+                <h3 id="priceSum"></h3>
+            </div>
+            
         </div>
     </div>
 
@@ -49,28 +56,30 @@
                         success: function(response) {
                             // Insert the HTML table into the specified container
                             $('#tableContainer').html(response.tableHTML);
+                            calculateSum();
+
                         },
                         error: function(error) {
                             console.error('Error fetching data:', error);
                         }
                     });
+                   
             }
 
             $('#generatePdf').on('click', function () {
                 var tableHtml = $('#myTable').prop('outerHTML');
-               
-             
+                var priceCon  = $('#priceCon').prop('outerHTML');
+            
              // Use AJAX to send the HTML content to the server for PDF generation
                 $.ajax({
                     url: 'generatePdf.php',
                     method: 'POST',
                     data: {
-                        htmlContent: tableHtml
+                        htmlContent: tableHtml,
+                        priceCon:priceCon
                     },
                     success: function (data) {
-                        
-                        // Redirect to the generated PDF file
-                        // window.location.href = data.pdfUrl;
+                        // $('#priceCon').append(data);
                        window.open('seabreak.pdf');
                     },
                     error: function (error) {
@@ -78,6 +87,25 @@
                     }
                 });
             });
+
+            function calculateSum(){
+                var sum = 0;
+
+                // Iterate over each row in the table body
+                $("#myTable tbody tr").each(function() {
+                    
+                    // Get the text content of the third cell (index 2) in the current row
+                    var cellText = $(this).find("td:eq(4)").text();
+                    // Convert the text to a number and add it to the sum
+                    var cellValue = parseFloat(cellText);
+                        if (!isNaN(cellValue)) {
+                            sum += cellValue;
+                        }
+                });
+
+                // Display the sum
+                $('#priceSum').html(sum.toFixed(2));
+            }
 
         });
     </script>
