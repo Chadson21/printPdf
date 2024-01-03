@@ -68,18 +68,20 @@
 
             $('#generatePdf').on('click', function () {
                 var tableHtml = $('#myTable').prop('outerHTML');
-                var priceCon  = $('#priceCon').prop('outerHTML');
-            
+                var priceCon  = $('#priceSum').text();
+                // var selectedPeriod = $('#period').val();
+
              // Use AJAX to send the HTML content to the server for PDF generation
                 $.ajax({
                     url: 'generatePdf.php',
                     method: 'POST',
                     data: {
                         htmlContent: tableHtml,
-                        priceCon:priceCon
+                        priceCon:priceCon,
+                        // selectedPeriod:period
                     },
                     success: function (data) {
-                        // $('#priceCon').append(data);
+                        $('#priceCon').append(data); 
                        window.open('seabreak.pdf');
                     },
                     error: function (error) {
@@ -104,7 +106,7 @@
                 });
 
                 // Display the sum
-                $('#priceSum').html(sum.toFixed(2));
+                $('#priceSum').html('Php '+ sum.toFixed(2));
             }
 
         });

@@ -38,7 +38,8 @@ while ($row = $result->fetch_assoc()) {
     $tableHTML .= "<td>{$row['product_name']}</td>";
     $tableHTML .= "<td>{$row['size']}</td>"; 
     $tableHTML .= "<td>{$row['quantity']}</td>"; 
-    $tableHTML .= "<td>".number_format($row['price'],2)."</td>"; 
+    $number = number_format($row['price'],2);
+    $tableHTML .= "<td value=".$number.">". $number."</td>"; 
     $tableHTML .= "<td>{$row['order_date']}</td>"; 
     $tableHTML .= "<td>{$row['emp_name']}</td>"; 
     $tableHTML .= "</tr>";
